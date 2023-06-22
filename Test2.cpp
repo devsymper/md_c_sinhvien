@@ -27,8 +27,7 @@ class sinhvien {
 class lop {
 	public:	
 		string classname;
-		vector <sinhvien> listsvlop;
-		vector <sinhvien>::iterator i;
+		map <string, sinhvien> listsvlop;
 		void seeallclass();
 		void addclass();
 		void addstudentclass(string tenlop);
@@ -120,7 +119,7 @@ void sinhvien::del(string masv) {
 void lop::seeallclass() {
 	for (pair <string, lop> x:listlop) {
 		cout << "Danh sach cac lop:" << endl;
-		cout << (x.second).classname << endl;
+		cout << x.first << endl;
 	}
 }
 
@@ -134,17 +133,18 @@ void lop::addclass() {
 	
 	
 	
+	
 }
 
 void lop::addstudentclass(string tenlop) {
 	for (pair <string, lop> x:listlop) {
-		if ((x.second).classname == tenlop) {
+		if (x.first == tenlop) {
 			string ten;
-			cout << "Hay them hoc sinh vao lop " << (x.second).classname << ": " << endl;
+			cout << "Hay them hoc sinh vao lop " << x.first << ": " << endl;
 			getline(cin, ten);
 			for (pair <string, sinhvien> y:listsv) {
-				if ((y.second).name == ten) {
-					((x.second).listsvlop).push_back(y.second);
+				if (y.first == ten) {
+					((x.second).listsvlop).insert({y});
 				}
 				else {
 					cout << "Khong co hoc sinh nay tren he thong." << endl;
@@ -161,9 +161,9 @@ void lop::addstudentclass(string tenlop) {
 void lop::studentinclass(string tenlop) {
 	cout << "Cac hoc sinh trong lop: " << tenlop << endl;
 	for (pair <string, lop> x:listlop) {
-		if ((x.second).classname == tenlop) {
-			for (int j = 0; j < ((x.second).listsvlop).size(); j++) {
-				cout << (x.second).listsvlop[j].name << endl;
+		if (x.first == tenlop) {
+			for (pair <string, sinhvien> y:((x.second).listsvlop)) {
+				cout << y.first << endl;
 
 			}
 		}
@@ -175,12 +175,12 @@ void lop::studentinclass(string tenlop) {
 	
 void delstudentclass(string tenlop) {
 	for (pair <string, lop> x:listlop) {
-		if ((x.second).classname == tenlop) {
+		if (x.first == tenlop) {
 			string ten;
 			cout << "Hay xoa hoc sinh trong lop " << (x.second).classname << ": " << endl;
-			for (int i = 0; i < ((x.second).listsvlop).size(); i++) {
-				if ((x.second).listsvlop.begin(), (x.second).listsvlop.end(), (x.second).listsvlop[i]) {
-					(x.second).listsvlop.erase(i);
+			for (pair <string, sinhvien> y: (x.second).listsvlop) {
+				if ((x.second).listsvlop.find(y.first) = (x.second).listsvlop.end()) {
+					(x.second).listsvlop.erase(y.first);
 				}
 			};
 		}
@@ -212,8 +212,10 @@ int main()
         cout << "Hay chon chuc nang: " ; 
         cin >> input;
         if (input == 1) {
+        	string ten;
         	sv.enter();
-        	listsv.insert(sv.name, sv);
+        	ten = sv.name;
+        	listsv.insert({ten, sv});
         	break;
 		}
 		if (input == 2) {
@@ -234,7 +236,10 @@ int main()
 		}
 		if (input == 5) {
 			lp.addclass();
-			listlop.insert(lp.classname,lp);
+			string tlop;
+        	lp.addclass();
+        	tlop = lp.classname;
+        	listlop.insert({tlop, lp});
 			break;
 		}
 		if (input == 6) {
@@ -258,10 +263,7 @@ int main()
 			lp.delstudentclass(classname);
 			break;
 		}
-		if (input == 0) {
-			return 0;
-		}
-   	 }
+	}
 }
 
 
