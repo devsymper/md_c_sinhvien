@@ -179,7 +179,7 @@ void delstudentclass(string tenlop) {
 			string ten;
 			cout << "Hay xoa hoc sinh trong lop " << (x.second).classname << ": " << endl;
 			for (pair <string, sinhvien> y: (x.second).listsvlop) {
-				if ((x.second).listsvlop.find(y.first) = (x.second).listsvlop.end()) {
+				if ((x.second).listsvlop.find(y.first) != (x.second).listsvlop.end()) {
 					(x.second).listsvlop.erase(y.first);
 				}
 			};
