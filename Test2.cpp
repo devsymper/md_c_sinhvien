@@ -7,8 +7,8 @@ class sinhvien {
 		double age, maths, physics, chemis;
 		void enter();
 		void output();
-		void edit(string masv);
-		void del(string masv);
+		void edit(string ten);
+		void del(string ten);
 		sinhvien();
 		sinhvien(string masv, string ten, string gioitinh, double tuoi, double toan, double ly, double hoa);
 		void setsv(string masv, string ten, string gioitinh, double tuoi, double toan, double ly, double hoa) {
@@ -78,43 +78,43 @@ void sinhvien::output() {
 	
 }
 
-void sinhvien::edit(string masv) {
-	for (pair <string, sinhvien> x:listsv) {
-		if ((x.second).code == masv) {
-			string ten, gioitinh;
-			double tuoi, toan, ly, hoa;
-			cout << "Nhap lai ten: " << endl;
-			getline(cin, ten);
-			cout << "Nhap lai gioi tinh: " << endl;
-			getline(cin, gioitinh);
-			cout << "Nhap lai tuoi: " << endl;
-			cin >> tuoi;
-			cout << "Nhap lai diem toan: " << endl;
-			cin >> toan;
-			cout << "Nhap lai diem ly: " << endl;
-			cin >> ly;
-			cout << "Nhap lai diem hoa: " << endl;
-			cin >> hoa;
-			(x.second).setsv(masv, ten, gioitinh, tuoi, toan, ly, hoa);
-		}
-		else {
-			cout << "Ma SV ko co tren he thong." << endl;
-		}
+void sinhvien::edit(string ten) {
+	if (listsv.find(ten) != listsv.end()) {
+		listsv.erase(ten);
+		string masv, gioitinh;
+		double tuoi, toan, ly, hoa;
+		cout << "Nhap lai ma SV: " << endl;
+		getline(cin, masv);
+		cout << "Nhap lai ten: " << endl;
+		getline(cin, ten);
+		cout << "Nhap lai gioi tinh: " << endl;
+		getline(cin, gioitinh);
+		cout << "Nhap lai tuoi: " << endl;
+		cin >> tuoi;
+		cout << "Nhap lai diem toan: " << endl;
+		cin >> toan;
+		cout << "Nhap lai diem ly: " << endl;
+		cin >> ly;
+		cout << "Nhap lai diem hoa: " << endl;
+		cin >> hoa;
+		listsv[ten].setsv(masv, ten, gioitinh, tuoi, toan, ly, hoa);
 	}
+	else {
+		cout << "SV ko co tren he thong." << endl;
+	}
+
 }
 
-void sinhvien::del(string masv) {
-	for (pair <string, sinhvien> x:listsv) {
-		if ((x.second).code == masv) {
-			listsv.erase(x.first);
-		}
-		else {
-			cout << "Ma SV ko co tren he thong." << endl;
-		}
-	
+void sinhvien::del(string ten) {
+	if (listsv.find(ten) != listsv.end()) {
+		listsv.erase(ten);
 	}
-	
+	else {
+		cout << "Sinh vien nay khong co tren he thong." << endl;
+	}
 }
+	
+
 
 void lop::seeallclass() {
 	for (pair <string, lop> x:listlop) {
@@ -137,26 +137,24 @@ void lop::addclass() {
 }
 
 void lop::addstudentclass(string tenlop) {
-	for (pair <string, lop> x:listlop) {
-		if (x.first == tenlop) {
-			string ten;
-			cout << "Hay them hoc sinh vao lop " << x.first << ": " << endl;
-			getline(cin, ten);
-			for (pair <string, sinhvien> y:listsv) {
-				if (y.first == ten) {
-					((x.second).listsvlop).insert({y});
-				}
-				else {
-					cout << "Khong co hoc sinh nay tren he thong." << endl;
-				}
-					
-			}
+	if (listlop.find(tenlop) != listlop.end()) {
+		string ten;
+		cout << "Hay them hoc sinh vao lop " << tenlop << ": " << endl;
+		getline(cin, ten);
+		if (listsv.find(ten) != listsv.end()) {
+			(listlop[tenlop].listsvlop).insert({ten, listsv[ten]});
 		}
 		else {
-			cout << "Lop nay chua co tren he thong. Hay them lop vao de them hoc sinh." << endl;
+				cout << "Khong co hoc sinh nay tren he thong." << endl;
 		}
+					
+	}
+	
+	else {
+			cout << "Lop nay chua co tren he thong. Hay them lop vao de them hoc sinh." << endl;
 	}
 }
+
 
 void lop::studentinclass(string tenlop) {
 	cout << "Cac hoc sinh trong lop: " << tenlop << endl;
@@ -174,17 +172,21 @@ void lop::studentinclass(string tenlop) {
 	}
 	
 void delstudentclass(string tenlop) {
-	for (pair <string, lop> x:listlop) {
-		if (x.first == tenlop) {
-			string ten;
-			cout << "Hay xoa hoc sinh trong lop " << (x.second).classname << ": " << endl;
-			for (pair <string, sinhvien> y: (x.second).listsvlop) {
-				if ((x.second).listsvlop.find(y.first) != (x.second).listsvlop.end()) {
-					(x.second).listsvlop.erase(y.first);
-				}
-			};
+	if (listlop.find(tenlop) != listlop.end()) {
+		string ten;
+		cout << "Hay xoa hoc sinh trong lop " << tenlop << ": " << endl;
+		cin >> ten;
+		if (listlop[tenlop].listsvlop.find(ten) != (listlop[tenlop]).listsvlop.end()) {
+			(listlop[tenlop]).listsvlop.erase(ten);
+		}
+		else {
+			cout << "Hoc sinh nay khong co trong lop." << endl;
 		}
 	}
+	else {
+		cout << "Khong co lop nay tren he thong." << endl;
+	}
+	
 }
 
 	
