@@ -265,6 +265,9 @@ int main()
 			lp.delstudentclass(classname);
 			break;
 		}
+		if (input == 0) {
+			return 0;
+		}
 	}
 }
 
