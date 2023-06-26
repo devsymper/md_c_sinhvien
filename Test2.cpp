@@ -1,17 +1,28 @@
 #include <bits/stdc++.h>
-using namespace std;
+#include <mysql_driver.h>
+#include <mysql_connection.h>
+
+using std::void;
+using std::string;
+using std::float;
+using std::cout;
+using std::cin;
+using std::endl;
+using std::map;
+using std::getline;
+
 class sinhvien {
 	public:
 		string code;
 		string name, gender;
-		double age, maths, physics, chemis;
+		float age, maths, physics, chemis;
 		void enter();
 		void output();
 		void edit(string ten);
 		void del(string ten);
 		sinhvien();
-		sinhvien(string masv, string ten, string gioitinh, double tuoi, double toan, double ly, double hoa);
-		void setsv(string masv, string ten, string gioitinh, double tuoi, double toan, double ly, double hoa) {
+		sinhvien(string masv, string ten, string gioitinh, float tuoi, float toan, float ly, float hoa);
+		void setsv(string masv, string ten, string gioitinh, float tuoi, float toan, float ly, float hoa) {
 			this->code = masv;
 			this->name = ten;
 			this->gender = gioitinh;
@@ -47,8 +58,14 @@ map <string, lop> listlop;
 
 
 void sinhvien::enter() {
+	sql::mysql::MySQL_Driver *driver;
+	sql::Connection *con;
+	sql::Statement *stmt;	
+	driver = sql::mysql::get_mysql_driver_instance();
+	con = driver->connect("tcp://127.0.0.1:3306", "root", "12345678");
+	stmt = con->createStatement();
 	string ten, gioitinh, masv;
-	double tuoi, toan, ly, hoa;
+	float tuoi, toan, ly, hoa;
 	cout << "Ma SV: " << endl;
 	getline(cin, masv);
 	cout << "Ten: " << endl;
@@ -64,17 +81,29 @@ void sinhvien::enter() {
 	cout << "Diem hoa: " << endl;
 	cin >> hoa;
 	setsv(masv, ten, gioitinh, tuoi, toan, ly, hoa);
+	string strtuoi = to_string(tuoi);
+	string strtoan = to_string(toan);
+	string strly = to_string(ly);
+	string strhoa = to_string(hoa);
+	string x = masv + ", " + tensv + ", " + gioitinh + ", " + strtuoi + ", " + strtoan + ", " + strly + ", " + strhoa;
+	stmt->execute("USE test");
+	stmt->execute("CREATE TABLE student(MaSV varchar(255) not null primary key, TenSV varchar(255) not null, GioiTinh varchar(255) not null, Tuoi int not null, Toan float not null, Ly float not null, Hoa float not null)");
+	string insertQuery = "INSERT INTO student(MaSV, TenSV, GioiTinh, Tuoi, Toan, Ly, Hoa) VALUES " + g
+	stmt->execute(insertQuery);
 
+	
 	
 }
 	
 
-void sinhvien::output() {	
+void sinhvien::output() {
+
 	cout << setw(6) << "Ma SV" << setw(8) << "Ten" << setw(-10) << "Gioi tinh" << setw(-12) << "Tuoi" << setw(-9) << "Diem toan" << setw(-10) << "Diem ly" << setw(-10) << "Diem hoa" << endl;
 	for (pair <string, sinhvien> x: listsv) {
-	cout << setw(-14) << (x.second).code << setw(-9) << (x.second).name << setw(-12) << (x.second).gender << setw(-14) << (x.second).age << setw(-12) << (x.second).maths << setw(-12) << (x.second).physics << setw(-12) << (x.second).chemis << endl; 
-	
+		cout << setw(-14) << (x.second).code << setw(-9) << (x.second).name << setw(-12) << (x.second).gender << setw(-14) << (x.second).age << setw(-12) << (x.second).maths << setw(-12) << (x.second).physics << setw(-12) << (x.second).chemis << endl; 
+		
 	}
+	
 	
 }
 
@@ -82,7 +111,7 @@ void sinhvien::edit(string ten) {
 	if (listsv.find(ten) != listsv.end()) {
 		listsv.erase(ten);
 		string masv, gioitinh;
-		double tuoi, toan, ly, hoa;
+		float tuoi, toan, ly, hoa;
 		cout << "Nhap lai ma SV: " << endl;
 		getline(cin, masv);
 		cout << "Nhap lai ten: " << endl;
@@ -98,6 +127,8 @@ void sinhvien::edit(string ten) {
 		cout << "Nhap lai diem hoa: " << endl;
 		cin >> hoa;
 		listsv[ten].setsv(masv, ten, gioitinh, tuoi, toan, ly, hoa);
+		
+		
 	}
 	else {
 		cout << "SV ko co tren he thong." << endl;
@@ -137,12 +168,22 @@ void lop::addclass() {
 }
 
 void lop::addstudentclass(string tenlop) {
+	sql::mysql::MySQL_Driver *driver;
+	sql::Connection *con;
+	sql::Statement *stmt;	
+	driver = sql::mysql::get_mysql_driver_instance();
+	con = driver->connect("tcp://127.0.0.1:3306", "root", "12345678");
+	stmt = con->createStatement();
 	if (listlop.find(tenlop) != listlop.end()) {
 		string ten;
 		cout << "Hay them hoc sinh vao lop " << tenlop << ": " << endl;
 		getline(cin, ten);
 		if (listsv.find(ten) != listsv.end()) {
 			(listlop[tenlop].listsvlop).insert({ten, listsv[ten]});
+			stmt->execute("USE test");
+			string updateQuery = "UPDATE student SET Lop = " + tenlop + " WHERE TenSV = " + ten;
+			stmt->execute(updateQuery);
+			
 		}
 		else {
 				cout << "Khong co hoc sinh nay tren he thong." << endl;
@@ -172,12 +213,21 @@ void lop::studentinclass(string tenlop) {
 	}
 	
 void delstudentclass(string tenlop) {
+	sql::mysql::MySQL_Driver *driver;
+	sql::Connection *con;
+	sql::Statement *stmt;	
+	driver = sql::mysql::get_mysql_driver_instance();
+	con = driver->connect("tcp://127.0.0.1:3306", "root", "12345678");
+	stmt = con->createStatement();
 	if (listlop.find(tenlop) != listlop.end()) {
 		string ten;
 		cout << "Hay xoa hoc sinh trong lop " << tenlop << ": " << endl;
 		cin >> ten;
 		if (listlop[tenlop].listsvlop.find(ten) != (listlop[tenlop]).listsvlop.end()) {
 			(listlop[tenlop]).listsvlop.erase(ten);
+			stmt->execute("USE test");
+			string updateQuery = "UPDATE student SET Lop = No class assigned WHERE TenSV = " + ten;
+			stmt->execute(updateQuery);
 		}
 		else {
 			cout << "Hoc sinh nay khong co trong lop." << endl;
@@ -189,7 +239,7 @@ void delstudentclass(string tenlop) {
 	
 }
 
-	
+
 int main()
 {
     int input;
@@ -197,37 +247,56 @@ int main()
     sinhvien sv;
     lop lp;
     string classname;
-    while (true)
-    {
-        cout << "HE THONG QUAN LY SINH VIEN\n";
-        cout << "CHUC NANG : \n";
-        cout << "1. Them thong tin sinh vien." << endl;
-        cout << "2. Dua ra thong tin sinh vien" << endl;
-        cout << "3. Xoa thong tin sinh vien." << endl;
-        cout << "4. Chinh sua thong tin sinh vien." << endl;
-        cout << "5. Them lop hoc." << endl;
-        cout << "6. Xem danh sach lop hoc." << endl;
-        cout << "7. Them sinh vien vao lop." << endl;
-        cout << "8. Xem danh sach sinh vien trong lop." << endl;
-        cout << "9. Xoa sinh vien khoi lop hoc." << endl;
-        cout << "0. Thoat." << endl;
-        cout << "Hay chon chuc nang: " ; 
-        cin >> input;
-        if (input == 1) {
-        	string ten;
-        	sv.enter();
-        	ten = sv.name;
-        	listsv.insert({ten, sv});
-        	break;
-		}
+    
+
+			
+	while (true) {
+		sql::mysql::MySQL_Driver *driver;
+		sql::Connection *con;
+		sql::Statement *stmt;	
+		driver = sql::mysql::get_mysql_driver_instance();
+		con = driver->connect("tcp://127.0.0.1:3306", "root", "12345678");
+		stmt = con->createStatement();
+		
+    	
+       		cout << "HE THONG QUAN LY SINH VIEN\n";
+    		cout << "CHUC NANG : \n";
+       		cout << "1. Them thong tin sinh vien." << endl;
+       		cout << "2. Dua ra thong tin sinh vien" << endl;
+      	 	cout << "3. Xoa thong tin sinh vien." << endl;
+     	  	cout << "4. Chinh sua thong tin sinh vien." << endl;
+    	   	cout << "5. Them lop hoc." << endl;
+   	    	cout << "6. Xem danh sach lop hoc." << endl;
+   	    	cout << "7. Them sinh vien vao lop." << endl;
+   	    	cout << "8. Xem danh sach sinh vien trong lop." << endl;
+   	    	cout << "9. Xoa sinh vien khoi lop hoc." << endl;
+    	   	cout << "10. Tra cuu hoc sinh." << endl;
+    	  	cout << "0. Thoat." << endl;
+    	   	cout << "Hay chon chuc nang: " ; 
+        	cin >> input;
+        	if (input == 1) {
+        		string ten;
+        		ten = sv.name;
+        		listsv.insert({ten, sv});
+        		sv.enter();
+        		break;
+		}	
 		if (input == 2) {
 			sv.output();
+			stmt = con->createStatement();
+			stmt->execute("USE test");
+			stmt->execute("SELECT * FROM student;");
 			break;
 		}
 		if (input == 3) {
 			cout << "Nhap ma SV ban muon xoa: ";
-			getline(cin,code);
+			getline(cin, code);
 			sv.del(code);
+			stmt->execute("USE test");
+			stmt->execute("SELECT * FROM student;");
+			stmt->execute("ALTER TABLE student");
+			string deleteQuery = "DELETE FROM student WHERE MaSV = " + code;
+			stmt->execute(deleteQuery);
 			break;
 		}
 		if (input == 4) {
@@ -239,13 +308,19 @@ int main()
 		if (input == 5) {
 			lp.addclass();
 			string tlop;
-        	lp.addclass();
-        	tlop = lp.classname;
-        	listlop.insert({tlop, lp});
+        		lp.addclass();
+        		tlop = lp.classname;
+        		listlop.insert({tlop, lp});
+       			stmt->execute("USE " (test));
+        		stmt->execute("SELECT * FROM student;");
+        		stmt->execute("ALTER TABLE student");
+        		stmt->execute("ADD Lop varchar(255);");
 			break;
 		}
 		if (input == 6) {
 			lp.seeallclass();
+			stmt->execute("USE test");
+			stmt->execute("SELECT DISTINCT Lop FROM student;");
 			break;
 		}
 		if (input == 7) {
@@ -257,6 +332,8 @@ int main()
 			cout << "Ten lop ma ban muon xem hoc sinh: ";
 			getline(cin, classname);
 			lp.studentinclass(classname);
+			stmt->execute("USE test");
+			stmt->execute("SELECT * FROM student WHERE Lop = " classname);
 			break;
 		}
 		if (input == 9) {
@@ -265,10 +342,19 @@ int main()
 			lp.delstudentclass(classname);
 			break;
 		}
+		if (input == 10) {
+			string search;
+			cout << "Nhap ten de tra cuu:" << endl;
+			cin >> search;
+			stmt->execute("USE test")
+			string updateQuery = "SELECT * FROM student WHERE TenSV LIKE '%" + search + "%";
+			stmt->execute(updateQuery);
+		}
 		if (input == 0) {
 			return 0;
 		}
+			
+		
 	}
+    
 }
-
-
