@@ -14,8 +14,8 @@ using namespace std;
 
 int main()
 {
-    int input;
-    sql::Driver *driver;
+    	int input;
+    	sql::Driver *driver;
 	sql::Connection *con;
 	sql::Statement *stmt;
 	sql::ResultSet *res;
