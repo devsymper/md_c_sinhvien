@@ -14,8 +14,8 @@ using namespace std;
 
 int main()
 {
-    	int input;
-    	sql::Driver *driver;
+    int input;
+    sql::Driver *driver;
 	sql::Connection *con;
 	sql::Statement *stmt;
 	sql::ResultSet *res;
@@ -25,9 +25,8 @@ int main()
 	con->setSchema("test");
 	stmt = con->createStatement();
     
-
-			
-	while (true) {
+	try {
+		while (true) {
         	cout << "HE THONG QUAN LY SINH VIEN\n";
     		cout << "CHUC NANG : \n";
        		cout << "1. Them thong tin sinh vien." << endl;
@@ -39,11 +38,11 @@ int main()
        		cout << "7. Them sinh vien vao lop." << endl;
        		cout << "8. Xem danh sach sinh vien trong lop." << endl;
         	cout << "9. Xoa sinh vien khoi lop hoc." << endl;
-        	cout << "10. Tra cuu hoc sinh." << endl;
+       	 	cout << "10. Tra cuu hoc sinh." << endl;
         	cout << "0. Thoat." << endl;
         	cout << "Hay chon chuc nang: " ; 
         	cin >> input;
-       		if (input == 1) {
+        	if (input == 1) {
         		string ten, gioitinh, masv;
 			string tuoi, toan, ly, hoa;
 			cout << "Ma SV: " << endl;
@@ -173,9 +172,18 @@ int main()
 			return 0;
 		}
 	delete con;
-	
 	return 0;		
 		
 	}
+}
+			
+	
+	catch (sql::SQLException &e) {
+  	cout << "# ERR: SQLException in " << __FILE__;
+  	cout << "(" << __FUNCTION__ << ") on line " << __LINE__ << endl;
+  	cout << "# ERR: " << e.what();
+  	cout << " (MySQL error code: " << e.getErrorCode();
+  	cout << ", SQLState: " << e.getSQLState() << " )" << endl;
+  }
     
 }
