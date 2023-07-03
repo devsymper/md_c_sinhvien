@@ -17,6 +17,12 @@ type PhoneBook struct {
 	PhoneList map[string]string
 }
 
+func NewPhoneList() *PhoneBook {
+	var p PhoneBook
+	p.PhoneList = make(map[string]string)
+	return &p
+}
+
 func (p *PhoneBook) insertPhone(name *string) {
 	var name1 string
 	name1 = *name
