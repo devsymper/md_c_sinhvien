@@ -5,6 +5,7 @@ import (
 )
 
 type PhoneInterface interface {
+	createMap()
 	insertPhone(name, phone string)
 	removePhone(name string)
 	updatePhone(name, newphone string)
@@ -20,12 +21,10 @@ func InitPhone() PhoneInterface {
 	return &PhoneBook{}
 }
 
-func MapPhone(p *PhoneBook) PhoneBook {
+func (p *PhoneBook) createMap() {
 	if p.PhoneList == nil {
 		p.PhoneList = make(map[string]string)
-		p.PhoneList["Nguoi"] = "SDT"
 	}
-	return *p
 }
 
 func (p *PhoneBook) insertPhone(name, phone string) {
@@ -105,10 +104,9 @@ func (p *PhoneBook) sort() {
 }
 
 func main() {
-	var p PhoneBook
 	var input int
-	InitPhone()
-	MapPhone(&p)
+	var p = InitPhone()
+	p.createMap()
 	for true {
 		fmt.Println("He thong kiem soat danh ba:")
 		fmt.Println("CHUC NANG")
