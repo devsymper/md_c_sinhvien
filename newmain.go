@@ -4,33 +4,29 @@ import (
 	"fmt"
 )
 
-type Phone interface {
-	insertPhone(name *string)
-	removePhone(name *string)
-	updatePhone(name *string)
-	searchPhone(name *string)
+type PhoneInterface interface {
+	insertPhone(name, phone string)
+	removePhone(name string)
+	updatePhone(name, newphone string)
+	searchPhone(name string)
 	sort()
 }
 
 type PhoneBook struct {
-	Phone
 	PhoneList map[string]string
 }
 
-func NewPhoneList() *PhoneBook {
-	var p PhoneBook
-	p.PhoneList = make(map[string]string)
+func InitPhone(p PhoneBook) PhoneInterface {
+	p.PhoneList = map[string]string{"Nguoi": "SDT"}
 	return &p
 }
 
-func (p *PhoneBook) insertPhone(name *string) {
-	var name1 string
-	name1 = *name
-	value, ok := p.PhoneList[name1]
+func (p *PhoneBook) insertPhone(name, phone string) {
+	value, ok := p.PhoneList[name]
 	if ok {
 		var check string
 		fmt.Println("Ten nay da co trong so dien thoai.")
-		fmt.Println("Kiem tra lai so dien thoai cua nguoi nay (Co/Khong).")
+		fmt.Println("Them so dien thoai phu cua nguoi nay (Co/Khong).")
 		fmt.Scanln(&check)
 		if check == "Co" {
 			fmt.Println("Nhap so dien thoai cua nguoi nay: ")
@@ -40,45 +36,41 @@ func (p *PhoneBook) insertPhone(name *string) {
 				fmt.Scanln("So dien thoai giong voi tren danh ba.")
 			} else {
 				var SDT string = NewNumber + "," + value
-				p.PhoneList[name1] = SDT
+				p.PhoneList[name] = SDT
 			}
 		} else {
-			fmt.Println("Nguoi nay khong co trong danh ba.")
+			fmt.Println("Quay ve man hinh chinh.")
 		}
 	} else {
-		var NewPhone string
-		fmt.Println("Them so dien thoai cua nguoi nay: ")
-		fmt.Scanln(NewPhone)
-		p.PhoneList[name1] = NewPhone
+		p.PhoneList[name] = phone
+		fmt.Println("Da them thanh cong.")
 		fmt.Println("Quay ve man hinh chinh.")
 	}
 }
 
-func (p *PhoneBook) removePhone(name *string) {
-	var name1 string
-	value, ok := p.PhoneList[name1]
+func (p *PhoneBook) removePhone(name string) {
+	value, ok := p.PhoneList[name]
 	if ok {
-		delete(p.PhoneList, name1)
+		delete(p.PhoneList, name)
 		fmt.Println("Da xoa thanh cong so dien thoai: ", value)
 	} else {
-		fmt.Println("Nguoi dung ", name1, "khong co trong danh ba.")
+		fmt.Println("Nguoi dung khong co trong danh ba.")
 		fmt.Println("Quay ve man hinh chinh.")
 	}
 }
 
-func (p *PhoneBook) updatePhone(name *string) {
-	var name1 string
-	name1 = *name
-	value, ok := p.PhoneList[name1]
+func (p *PhoneBook) updatePhone(name, newphone string) {
+	value, ok := p.PhoneList[name]
 	if ok {
-		fmt.Println("Nhap so dien thoai moi cua nguoi nay: ")
-		var NewNumber string
-		fmt.Scanln(&NewNumber)
-		fmt.Scanln("So dien thoai cu cua nguoi nay la: ", value, ", ban co muon sua? (Co/Khong)")
+		fmt.Println("Ban co muon thay SDT: ")
+		fmt.Println(value)
+		fmt.Println("Voi SDT: ")
+		fmt.Println(newphone)
+		fmt.Scanln("Co/Khong")
 		var ans string
 		fmt.Scanln(&ans)
 		if ans == "Co" {
-			p.PhoneList[name1] = NewNumber
+			p.PhoneList[name] = newphone
 		} else {
 			fmt.Println("Quay ve man hinh chinh.")
 		}
@@ -88,12 +80,11 @@ func (p *PhoneBook) updatePhone(name *string) {
 	}
 }
 
-func (p *PhoneBook) searchPhone(name *string) {
-	var name1 string
-	name1 = *name
-	value, ok := p.PhoneList[name1]
+func (p *PhoneBook) searchPhone(name string) {
+	value, ok := p.PhoneList[name]
 	if ok {
-		fmt.Println(name1, ": ", value)
+		fmt.Println(name)
+		fmt.Println(value)
 	} else {
 		fmt.Println("Nguoi nay khong co trong danh ba.")
 	}
@@ -101,7 +92,8 @@ func (p *PhoneBook) searchPhone(name *string) {
 
 func (p *PhoneBook) sort() {
 	for k, v := range p.PhoneList {
-		fmt.Println(k, ": ", v)
+		fmt.Println(k)
+		fmt.Println(v)
 	}
 }
 
@@ -121,27 +113,33 @@ func main() {
 		fmt.Scanln(&input)
 		if input == 1 {
 			var name string
+			var phone string
 			fmt.Println("Nhap ten cua nguoi ban muon them vao danh ba: ")
 			fmt.Scanln(&name)
-			p.insertPhone(&name)
+			fmt.Println("Nhap SDT ban muon them: ")
+			fmt.Scanln(&phone)
+			p.insertPhone(name, phone)
 		}
 		if input == 2 {
 			var name string
 			fmt.Println("Nhap ten nguoi dung ban muon xoa khoi danh ba: ")
 			fmt.Scanln(&name)
-			p.removePhone(&name)
+			p.removePhone(name)
 		}
 		if input == 3 {
 			var name string
+			var newphone string
 			fmt.Println("Nhap ten nguoi dung ban muon sua so: ")
 			fmt.Scanln(&name)
-			p.updatePhone(&name)
+			fmt.Println("Nhap SDT moi cua nguoi nay: ")
+			fmt.Scanln(&newphone)
+			p.updatePhone(name, newphone)
 		}
 		if input == 4 {
 			var name string
 			fmt.Println("Nhap ten nguoi dung ban muon tim: ")
 			fmt.Scanln(&name)
-			p.searchPhone(&name)
+			p.searchPhone(name)
 		}
 		if input == 5 {
 			p.sort()
