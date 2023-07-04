@@ -16,9 +16,16 @@ type PhoneBook struct {
 	PhoneList map[string]string
 }
 
-func InitPhone(p PhoneBook) PhoneInterface {
-	p.PhoneList = map[string]string{"Nguoi": "SDT"}
-	return &p
+func InitPhone() PhoneInterface {
+	return &PhoneBook{}
+}
+
+func MapPhone(p *PhoneBook) PhoneBook {
+	if p.PhoneList == nil {
+		p.PhoneList = make(map[string]string)
+		p.PhoneList["Nguoi"] = "SDT"
+	}
+	return *p
 }
 
 func (p *PhoneBook) insertPhone(name, phone string) {
@@ -100,6 +107,8 @@ func (p *PhoneBook) sort() {
 func main() {
 	var p PhoneBook
 	var input int
+	InitPhone()
+	MapPhone(&p)
 	for true {
 		fmt.Println("He thong kiem soat danh ba:")
 		fmt.Println("CHUC NANG")
