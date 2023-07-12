@@ -1,51 +1,68 @@
 package main
 
 import (
-	"fmt"
+	"net/http"
+	"sync"
 
-	"me/test/calculator"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
+type Todo struct {
+	Name  string `json:"Name"`
+	State bool   `json:"State"`
+}
+
+type Todolist struct {
+	list []Todo
+	m    sync.Mutex
+}
+
+func Listconstructor() Todolist {
+	return Todolist{
+		list: make([]Todo, 0),
+		m:    sync.Mutex{},
+	}
+}
+
+func (tdl *Todolist) showtodo() []Todo {
+	return tdl.list
+}
+
+type CreateRQ struct {
+	Name string `json:"title"`
+}
+
+func (tdl *Todolist) Create(createTodoRequest CreateRQ) Todo {
+	tdl.m.Lock()
+	defer tdl.m.Unlock()
+	newTodo := Todo{
+		Name:  createTodoRequest.Name,
+		State: false,
+	}
+
+	tdl.list = append(tdl.list, newTodo)
+
+	return newTodo
+}
+
 func main() {
-	var input int
-	fmt.Println("Basic Calculator")
-	fmt.Println("-----Options-----")
-	fmt.Println("     1. Add      ")
-	fmt.Println("   2. Subtract   ")
-	fmt.Println("   3. Multiply   ")
-	fmt.Println("    4. Divide    ")
-	fmt.Println("Choose the equation")
-	fmt.Scanln(&input)
-	if input == 1 {
-		var A, B float32
-		fmt.Println("Type the first number: ")
-		fmt.Scanln(&A)
-		fmt.Println("Type the second number: ")
-		fmt.Scanln(&B)
-		fmt.Printf("Your answer is: %v", calculator.Add(A, B))
-	}
-	if input == 2 {
-		var A, B float32
-		fmt.Println("Type the first number: ")
-		fmt.Scanln(&A)
-		fmt.Println("Type the second number: ")
-		fmt.Scanln(&B)
-		fmt.Printf("Your answer is: %v", calculator.Subtract(A, B))
-	}
-	if input == 3 {
-		var A, B float32
-		fmt.Println("Type the first number: ")
-		fmt.Scanln(&A)
-		fmt.Println("Type the second number: ")
-		fmt.Scanln(&B)
-		fmt.Printf("Your answer is: %v", calculator.Multiply(A, B))
-	}
-	if input == 4 {
-		var A, B float32
-		fmt.Println("Type the first number: ")
-		fmt.Scanln(&A)
-		fmt.Println("Type the second number: ")
-		fmt.Scanln(&B)
-		fmt.Printf("Your answer is: %v", calculator.Divide(A, B))
-	}
+	tdl := Listconstructor()
+	e := echo.New()
+	e.Use(middleware.Logger())
+	e.GET("/", func(c echo.Context) error {
+		list := tdl.showtodo()
+		return c.JSON(http.StatusOK, list)
+	})
+	e.POST("/create", func(c echo.Context) error {
+		request := CreateRQ{}
+		err := c.Bind(&request)
+		if err != nil {
+			return err
+		}
+
+		Todo := tdl.Create(request)
+		return c.JSON(http.StatusCreated, Todo)
+	})
+	e.Start(":1811")
 }
