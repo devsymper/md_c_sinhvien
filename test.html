@@ -1,60 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Form</title>
 </head>
-<body>
-    <form action="test.html" method="post">
-        <table width="500" border="2" cellpadding = "5" align = "center">
-            <tr>
-                <th colspan = "7">REGISTER</th>
-            </tr>
-            <tr>
-                <td>First name</td>
-                <td>
-                    <input type = "text" name = "fname" size = "25" placeholder="Type first name...">
-                </td>
-            </tr>
-            <tr>
-                <td>Last name:</td>
-                <td>
-                    <input type = "text" name = "fname" size = "25" placeholder="Type last name...">
-                </td>
-            </tr>
-            <tr>
-                <td>Email:</td>
-                <td>
-                    <input type = "email" name = "mail" size = "25" placeholder="Type email...">
-                </td>
-            </tr>
-            <tr>
-                <td>Phone number:</td>
-                <td>
-                    <input type = "number" name = "phone" size = "25" placeholder="Type phone number...">
-                </td>
-            </tr>
-            <tr>
-                <td>Website:</td>
-                <td>
-                    <input type = "text" name = "web" size = "25" placeholder="Type website...">
-                </td>
-            </tr>
-            <tr>
-                <td>Password:</td>
-                <td>
-                    <input type = "password" name = "pass" size = "25" placeholder="Type password...">
-                </td>
-            </tr>
-            <tr>
-                <td>Retype your password:</td>
-                <td>
-                    <input type = "password" name = "repass" size = "25" placeholder="Retype password...">
-                </td>
-            </tr>
+<style> .content 
+{  
+    max-width: 500px;
+    margin: auto
+}
+</style>
+<body style="background-color: lavender;">
+    <div class="content">
+        <style> h2 
+        {
+            font-size: 50;
+            font-weight: normal;
+        }
+        </style>
+        <style> .your-class input
+        {
+            float:left;
+        }
+        </style>
+        <style> input 
+        {   
+            padding: 10px;
+            margin-right: 20px;
+            margin-top: 0px;
+        }
+        </style>
+        <h2 style="font-size: 50;">Register</h2>
+        <p style="color: gray">Please type all of the information requested below.</p>
+        <table style="margin-top: 0px;">
+            <form>
+                <div>
+                    <p style="font-size: 17;"><b>First name&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&nbsp;Last name</b></p>
+                </div>
+                <div class="input">
+                    <input type="text" id="first-name" placeholder="Type first name..." style="width: 180px;">
+                    <input type="text" id="last-name" placeholder="Type last name..." style="width: 180px;">
+                </div>
+                <div>
+                    <p><b>Email Address</b></p>
+                </div>
+                <div class="input">
+                    <input type="email" id="email" placeholder="Type email..." style="width: 410px;">
+                </div>
+                <div>
+                    <p style="font-size: 17;"><b>Phone Number&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Website</b></p>
+                </div>
+                <div class="input">
+                    <input type="number" id="phone-number" placeholder="Type phone number..." style="width: 180px;">
+                    <input type="text" id="website" placeholder="Type website..." style="width: 180px;">
+                </div>
+                <div>
+                    <p style="font-size: 17;"><b>Password&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;Re-type password</b></p>
+                </div>
+                <div class="input">
+                    <input type="password" id="pass" placeholder="Type password..." style="width: 180px;">
+                    <input type="password" id="re-pass" placeholder="Re-type password..." style="width: 180px;">
+                </div><br>
+                <div>
+                    <input type="checkbox" id="confirm" name="confirm">
+                    <label for="confirm">Registering an account means that you agree to our Terms and Privacy.</label>
+                </div><br>
+                <div>
+                    <input type="submit" value="Register" style="background-color: orangered; color: white">
+                </div>
+            </form>
         </table>
-    </form>
+    </div>
     
 </body>
 </html>
