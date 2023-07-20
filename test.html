@@ -11,74 +11,77 @@
     margin: auto
 }
 </style>
-<body style="background-color: lavender;">
+<body style="background-color:#f6f7fc;">
     <div class="content">
-        <style> h2 
-        {
+        <style>  
+        h2  {
             font-size: 50;
+            margin-bottom: 0px;
             font-weight: normal;
-        }
-        </style>
-        <style> .your-class input
-        {
-            float:left;
         }
         </style>
         <style> input 
         {   
-            padding: 10px;
+            padding: 12px;
             margin-right: 20px;
             margin-top: 0px;
+            margin-bottom: 0px;
+            border-left-width: 0px; 
+            border-right-width: 0px; 
+            border-top-width: 0px; 
+            border-bottom-color: #ebeaf1;
         }
         </style>
-        <h2 style="font-size: 50;">Register</h2>
-        <p style="color: gray">Please type all of the information requested below.</p>
-        <div id="err"></div>
+        <style>
+            input[type="checkbox"]:checked ~ .checkmark { background: #ffffff; }
+        </style>
+        <h2>Register</h2>
+        <p style="color:#ceced2; margin-top: 4px;">Please type all of the information requested below.</p>
             <form>
                 <div>
-                    <p style="font-size: 17;"><b>First name&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&nbsp;Last name</b></p>
+                    <p style="font-size: 17; margin-bottom: 7px;">First name&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Last name</p>
                 </div>
                 <div class="input">
-                    <input type="text" id="first-name" placeholder="Type first name..." style="width: 180px;">
-                    <input type="text" id="last-name" placeholder="Type last name..." style="width: 180px;">
+                    <input type="text" id="first-name" placeholder="e.g. John" style="width: 180px;">
+                    <input type="text" id="last-name" placeholder="e.g. Smith" style="width: 180px;">
                 </div>
                 <div>
-                    <p><b>Email Address</b></p>
+                    <p style="font-size: 17; margin-bottom: 7px; margin-top: 10.5px;">Email Address</p>
                 </div>
                 <div class="input">
-                    <input type="email" id="email" placeholder="Type email..." style="width: 410px;">
+                    <input type="email" id="email" placeholder="e.g. john@your-domain.com" style="width: 410px;">
                 </div>
                 <div>
-                    <p style="font-size: 17;"><b>Phone Number&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Website</b></p>
+                    <p style="font-size: 17; margin-bottom: 7px; margin-top: 10.5px;">Phone Number&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Website</p>
                 </div>
                 <div class="input">
-                    <input type="number" id="phone-number" placeholder="Type phone number..." style="width: 180px;">
-                    <input type="text" id="website" placeholder="Type website..." style="width: 180px;">
+                    <input type="number" id="phone-number" placeholder="+00 0000 000 0000" style="width: 180px;">
+                    <input type="text" id="website" placeholder="e.g. https://google.com" style="width: 180px;">
                 </div>
                 <div>
-                    <p style="font-size: 17;"><b>Password&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;Re-type password</b></p>
+                    <p style="font-size: 17; margin-bottom: 7px; margin-top: 10.5px;">Password&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;Re-type password</p>
                 </div>
                 <div class="input">
-                    <input type="password" id="pass" placeholder="Type password..." style="width: 180px;">
-                    <input type="password" id="re-pass" placeholder="Re-type password..." style="width: 180px;">
-                </div><br>
+                    <input type="password" id="pass" placeholder="Your Password" style="width: 180px;">
+                    <input type="password" id="re-pass" placeholder="Your Password" style="width: 180px;">
+                </div><br><br>
                 <div>
-                    <input type="checkbox" id="confirm" name="confirm">
-                    <label for="confirm">Registering an account means that you agree to our Terms and Privacy.</label>
-                </div><br>
+                    <input type="checkbox" id="confirm" name="confirm" style="margin-right: 2px; width: 16px; height: 16px;accent-color: #eb7e39; margin-left: 0px;">
+                    <label style="color: #969493; font-size: 14px; text-indent: -15px; vertical-align: top;" for="confirm">Creating an account means that you are okay with our <u>Terms and Conditions</u> and our <u>Privacy Policy</u>.</label>
+                </div><br><br>
                 <div>
-                    <input type="button" onclick="inputFunc()" value="Register" style="background-color: orangered; color: white; padding: 10px"></button>
+                    <input type="button" onclick="inputFunc()" value="Register" style="background-color: #eb7e39; color: white; padding: 13px; border: 0px; width: 125px; border-radius: 3px;"></button>
                 </div>
-            </form>
-            <table id="table" border="1">
-                <thead>
+            </form><br>
+            <table id="table" border="1" style="border: 1px solid black; border-collapse: collapse;">
+                <thead style="border: 1px solid black; border-collapse: collapse;">
                     <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
-                        <th>Phone Number</th>
-                        <th>Website</th>
-                        <th>Password</th>
+                        <th style="font-weight: normal; width: 120px;">First Name</th>
+                        <th style="font-weight: normal; width: 120px;">Last Name</th>
+                        <th style="font-weight: normal; width: 120px;">Email</th>
+                        <th style="font-weight: normal; width: 120px;">Phone Number</th>
+                        <th style="font-weight: normal; width: 120px;">Website</th>
+                        <th style="font-weight: normal; width: 120px;">Password</th>
                     </tr>
                 </thead>
                 <tbody id="tablebody">
