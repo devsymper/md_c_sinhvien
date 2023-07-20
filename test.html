@@ -7,7 +7,7 @@
 </head>
 <style> .content 
 {  
-    max-width: 500px;
+    max-width: 1000px;
     margin: auto
 }
 </style>
@@ -33,7 +33,7 @@
         </style>
         <h2 style="font-size: 50;">Register</h2>
         <p style="color: gray">Please type all of the information requested below.</p>
-        <table style="margin-top: 0px;">
+        <div id="err"></div>
             <form>
                 <div>
                     <p style="font-size: 17;"><b>First name&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&nbsp;Last name</b></p>
@@ -67,11 +67,52 @@
                     <label for="confirm">Registering an account means that you agree to our Terms and Privacy.</label>
                 </div><br>
                 <div>
-                    <input type="submit" value="Register" style="background-color: orangered; color: white">
+                    <button onclick="inputFunc()" style="background-color: orangered; color: white; padding: 10px">Register</button>
                 </div>
             </form>
-        </table>
+            <table id="table" border="1">
+                <thead id="table-head">
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Website</th>
+                    <th>Password</th>
+                </tr>
+                </thead>
+                <tbody id="tablebody">
+                </tbody>
+            </table>
     </div>
+    <script>
+        function inputFunc() {
+            var table = document.getElementById("tablebody")
+            var td1 = document.createElement("td")
+            var td2 = document.createElement("td")
+            var td3 = document.createElement("td")
+            var td4 = document.createElement("td")
+            var td5 = document.createElement("td")
+            var td6 = document.createElement("td")
+            var row = document.createElement("row")
+
+            td1.innerHTML = document.getElementById("first-name").value;
+            td2.innerHTML = document.getElementById("last-name").value;
+            td3.innerHTML = document.getElementById("email").value;
+            td4.innerHTML = document.getElementById("phone-number").value;
+            td5.innerHTML = document.getElementById("website").value;
+            td6.innerHTML = document.getElementById("pass").value;
+
+            row.appendChild(td1);
+            row.appendChild(td2);
+            row.appendChild(td3);
+            row.appendChild(td4);
+            row.appendChild(td5);
+            row.appendChild(td6);
+            
+            table.appendChild(row)
+        }
+    </script>
     
 </body>
 </html>
