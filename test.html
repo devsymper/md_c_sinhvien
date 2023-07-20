@@ -67,19 +67,19 @@
                     <label for="confirm">Registering an account means that you agree to our Terms and Privacy.</label>
                 </div><br>
                 <div>
-                    <button onclick="inputFunc()" style="background-color: orangered; color: white; padding: 10px">Register</button>
+                    <input type="button" onclick="inputFunc()" value="Register" style="background-color: orangered; color: white; padding: 10px"></button>
                 </div>
             </form>
             <table id="table" border="1">
-                <thead id="table-head">
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Website</th>
-                    <th>Password</th>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Website</th>
+                        <th>Password</th>
+                    </tr>
                 </thead>
                 <tbody id="tablebody">
                 </tbody>
@@ -87,14 +87,15 @@
     </div>
     <script>
         function inputFunc() {
-            var table = document.getElementById("tablebody")
-            var td1 = document.createElement("td")
-            var td2 = document.createElement("td")
-            var td3 = document.createElement("td")
-            var td4 = document.createElement("td")
-            var td5 = document.createElement("td")
-            var td6 = document.createElement("td")
-            var row = document.createElement("row")
+            "use strict";
+            var table = document.getElementById("tablebody");
+            var row = document.createElement("tr");
+            var td1 = document.createElement("td");
+            var td2 = document.createElement("td");
+            var td3 = document.createElement("td");
+            var td4 = document.createElement("td");
+            var td5 = document.createElement("td");
+            var td6 = document.createElement("td");
 
             td1.innerHTML = document.getElementById("first-name").value;
             td2.innerHTML = document.getElementById("last-name").value;
@@ -110,8 +111,8 @@
             row.appendChild(td5);
             row.appendChild(td6);
             
-            table.appendChild(row)
-        }
+            table.appendChild(row);
+        };
     </script>
     
 </body>
