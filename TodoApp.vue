@@ -25,13 +25,12 @@
       <tbody>
         <tr v-for="(task, index) in tasks" :key="index">
           <td>
-            <span :class="{ 'line-through': task.status === 'finished' }">
+            <span>
               {{ task.name }}
             </span>
           </td>
           <td>
             <span
-              class="pointer noselect"
               @click="update(index)"
               :class="{
                 'text1': task.status === 'pre-started',
@@ -123,12 +122,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.pointer {
-  cursor: pointer;
-}
-.line-through {
-  text-decoration: line-through;
-}
-</style>
