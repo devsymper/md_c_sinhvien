@@ -13,7 +13,7 @@
       </button>
     </div>
 
-    <table class="table table-bordered mt-5">
+    <table>
       <thead>
         <tr>
           <th scope="col">Task</th>
